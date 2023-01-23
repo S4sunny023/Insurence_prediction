@@ -2,9 +2,14 @@ import pymongo # pip install pymongo
 import pandas as pd
 import json
 
-client = pymongo.MongoClient("mongodb+srv://Sunny:Sunny1997@cluster0.ga2wuns.mongodb.net/?retryWrites=true&w=majority")
 
-DATA_FILE_PATH = (r"D:\insurence_prediction\requirements.txt")
+client = pymongo.MongoClient("mongodb+srv://sunny022:sunny1997@cluster0.v0olynr.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+
+
+
+
+DATA_FILE_PATH = (r"D:\insurence_prediction\insurance.csv")
 DATABASE_NAME = "INSURANCE"
 COLLECTION_NAME = "INSURANCE_PROJECT"
 
