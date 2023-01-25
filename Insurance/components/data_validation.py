@@ -19,6 +19,7 @@ class DataValidation:
                     data_validation_config:config_entity.DataValidationConfig,
                     data_ingestion_artifact:artifact_entity.DataIngestionArtifact):
         try:
+            logging.info("*****DATAVALIDATION******")
             self.data_validation_config = data_validation_config
             self.data_ingestion_artifact=data_ingestion_artifact
             self.validation_error=dict()
