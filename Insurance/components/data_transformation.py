@@ -13,6 +13,7 @@ from Insurance import utils
 
 
 class DataTransformation:
+    logging.info("****Data Transformation******")
     def __init__(self,data_transformation_config:config_entity.DataTransformationConfig,
                     data_ingestion_artifact:artifact_entity.DataIngestionArtifact):
         try:
@@ -103,7 +104,7 @@ class DataTransformation:
 
 
             return data_transformation_artifact
-            TARGET_ENCODER_OBJECT_FILE_NAME
+           
 
 
         except Exception as e:
