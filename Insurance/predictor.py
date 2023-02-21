@@ -78,7 +78,7 @@ class ModelResolver:
             raise e
 
 
-    def get_latest_save_transform_path(self):
+    def get_latest_save_transformer_path(self):
         try:
             latest_dir = self.get_latest_save_dir_path()
             return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)

@@ -9,9 +9,10 @@ db = client.test
 
 
 
-DATA_FILE_PATH = (r"D:\insurence_prediction\insurance.csv")
+DATA_FILE_PATH = (r"F:\insurance_prediction\insurance.csv")
 DATABASE_NAME = "INSURANCE"
 COLLECTION_NAME = "INSURANCE_PROJECT"
+
 
 
 if __name__=="__main__":
