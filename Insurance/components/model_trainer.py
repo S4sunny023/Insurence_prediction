@@ -6,7 +6,9 @@ import pandas as pd
 import numpy as np
 from sklearn.pipeline import Pipeline
 from Insurance import utils
-from sklearn.linear_model import LinearRegression
+#from sklearn.linear_model import LinearRegression
+#from sklearn.ensemble import ExtraTreesRegressor
+from catboost import CatBoostRegressor
 from sklearn.metrics import r2_score
 
 
@@ -26,7 +28,7 @@ class ModelTrainer:
 
     def train_model(self, x, y):
         try:
-            lr = LinearRegression()
+            lr =  CatBoostRegressor(verbose=False)
             lr.fit(x, y)
             return lr
         except Exception as e:
