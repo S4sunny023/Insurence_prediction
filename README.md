@@ -16,10 +16,10 @@ python main.py
 ```
 
 
-To download your dataset
+To download  dataset
 
 ```
-wget https://raw.githubusercontent.com/avnyadav/sensor-fault-detection/main/aps_failure_training_set1.csv
+wget https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction
 ```
 
 This is changes made in neuro lab
