@@ -3,7 +3,7 @@ from Insurance.logger import logging
 from Insurance.exception import InsuranceException
 from datetime import datetime
 
-FILE_NAME = 'insurence.csv'
+FILE_NAME = 'insurance.csv'
 TRAIN_FILE_NAME = 'train.csv'
 TEST_FILE_NAME = 'test.csv'
 TRANSFORMER_OBJECT_FILE_NAME="transformer.pkl"
