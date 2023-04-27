@@ -1,60 +1,44 @@
-import streamlit as st
+from flask import Flask,request,render_template
 import numpy as np
 import pandas as pd
-import pickle
-
-model = pickle.load(open("model.pkl",'rb'))
-encoder = pickle.load(open("target_encoder.pkl",'rb'))
-transformer= pickle.load(open("transformer.pkl",'rb'))
-
-st.title("Insurance Premium Prediction")
-
-age = st.text_input('Enter Age', 18)
-age = int(age)
-
-sex = st.selectbox(
-    'Please select gender',
-    ('male', 'female'))
-# gender = encoder.transform(np.array([sex]))
-
-bmi = st.text_input('Enter BMI', 18)
-bmi = float(bmi)
-
-children = st.selectbox(
-    'Please select number of children ',
-    (0,1,2,3,4,5))
-children = int(children)
 
 
-smoker = st.selectbox(
-    'Please select smoker category ',
-    ("yes","no"))
-# smoker = encoder.transform(smoker)
-
-region = st.selectbox(
-    'Please select region ',
-    ("southwest", "southeast", "northeast", "northwest"))
+from sklearn.preprocessing import StandardScaler
+from Insurance.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 
-l = {}
-l['age'] = age
-l['sex'] = sex
-l['bmi'] = bmi
-l['children'] = children
-l['smoker'] = smoker
-l['region'] = region
+application= Flask(__name__)
 
-df = pd.DataFrame(l, index=[0])
+app = application
 
-df['region'] = encoder.transform(df['region'])
-df['sex'] = df['sex'].map({'male':1, 'female':0})
-df['smoker'] = df['smoker'].map({'yes':1, 'no':0})
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-df = transformer.transform(df)
-# dtrain = xg.DMatrix(df)
-y_pred = model.predict(df)
-# st.write(age, gender, bmi, children, smoker, region)
+@app.route('/predictdata',methods=['GET','POST'])
+def predict_datapoint():
+    if request.method=='GET':
+        return render_template('home.html')
+    else:
+        data=CustomData(
+            age=request.form.get('age'),
+            sex=request.form.get('sex'),
+            bmi=request.form.get('bmi'),
+            children=request.form.get('children'),
+            smoker=request.form.get('smoker'),
+            region=request.form.get('region'),
+           )
 
-if st.button("Show Result"):
-    # col1,col2, col3,col4 = st.columns(4)
-    st.header(f"{round(y_pred[0],2)} INR")
+        pred_df = data.get_data_as_data_frame()
+        print(pred_df)
+
+        predict_pipeline = PredictPipeline()
+        results=predict_pipeline.predict(pred_df)
+        return render_template('home.html',results=results[0])
+    
+if __name__=="__main__":
+    app.run(host="0.0.0.0",debug=True)
+
+    
+
+
