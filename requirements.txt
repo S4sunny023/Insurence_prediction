@@ -16,7 +16,6 @@ xgboost==1.6.2
 pandas
 PyYAML
 numpy
-seaborn
 scikit-learn
 apache-airflow
 click==7.1.2
@@ -26,4 +25,5 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 Werkzeug==1.0.1
+
 -e .
