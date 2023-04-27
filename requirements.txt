@@ -17,6 +17,7 @@ pandas
 PyYAML
 numpy
 scikit-learn
+catboost
 apache-airflow
 click==7.1.2
 Flask==1.1.2
