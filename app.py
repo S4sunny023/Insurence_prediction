@@ -1,64 +1,71 @@
-import streamlit as st
-import matplotlib.pyplot as plt
+from flask import Flask, render_template, request
 import numpy as np
-import pandas as pd
-import seaborn as sns
 import pickle
-import xgboost as xg
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
 
-model = pickle.load(open('model.pkl','rb'))
-encoder = pickle.load(open('target_encoder.pkl','rb'))
-transformer = pickle.load(open('transformer.pkl','rb'))
+app = Flask(__name__)
+model = pickle.load(open('model.pkl', 'rb'))
 
-st.title("Insurance Premium Prediction")
-age = st.text_input('Enter Age', 18)
-age = int(age)
+@app.route('/',methods=['GET'])
+def Home():
+    return render_template('index.html')
 
-sex = st.selectbox(
-    'Please select gender',
-    ('male', 'female'))
-# gender = encoder.transform(np.array([sex]))
+@app.route("/predict", methods=['POST'])
+def predict():
+    if request.method == 'POST':
+        age = float(request.form['age'])
 
-bmi = st.text_input('Enter BMI', 18)
-bmi = float(bmi)
+        sex = request.form['sex']
+        if (sex == 'male'):
+            sex_male = 1
+            sex_female = 0
+        else:
+            sex_male = 0
+            sex_female = 1
 
-children = st.selectbox(
-    'Please select number of children ',
-    (0,1,2,3,4,5))
-children = int(children)
+        smoker = request.form['smoker']
+        if (smoker == 'yes'):
+            smoker_yes = 1
+            smoker_no = 0
+        else:
+            smoker_yes = 0
+            smoker_no = 1
+
+        bmi = float(request.form['bmi'])
+        children = int(request.form['children'])
+
+        region = request.form['region']
+        if (region == 'northwest'):
+            region_northwest = 1
+            region_southeast = 0
+            region_southwest = 0
+            region_northeast = 0
+        elif (region == 'southeast'):
+            region_northwest = 0
+            region_southeast = 1
+            region_southwest = 0
+            region_northeast = 0
+        elif (region == 'southwest'):
+            region_northwest = 0
+            region_southeast = 0
+            region_southwest = 1
+            region_northeast = 0
+        else:
+            region_northwest = 0
+            region_southeast = 0
+            region_southwest = 0
+            region_northeast = 1
 
 
-smoker = st.selectbox(
-    'Please select smoker category ',
-    ("yes","no"))
-# smoker = encoder.transform(smoker)
-
-region = st.selectbox(
-    'Please select region ',
-    ("southwest", "southeast", "northeast", "northwest"))
+        values = np.array([[age,sex_male,smoker_yes,bmi,children,region_northwest,region_southeast,region_southwest]])
+        prediction = model.predict(values)
+        prediction = round(prediction[0],2)
 
 
-l = {}
-l['age'] = age
-l['sex'] = sex
-l['bmi'] = bmi
-l['children'] = children
-l['smoker'] = smoker
-l['region'] = region
+        return render_template('result.html', prediction_text='Estimate medical insurance cost is {}'.format(prediction))
 
-df = pd.DataFrame(l, index=[0])
 
-df['region'] = encoder.transform(df['region'])
-df['sex'] = df['sex'].map({'male':1, 'female':0})
-df['smoker'] = df['smoker'].map({'yes':1, 'no':0})
 
-df = transformer.transform(df)
-# dtrain = xg.DMatrix(df)
-y_pred = model.predict(df)
-# st.write(age, gender, bmi, children, smoker, region)
 
-if st.button("Show Result"):
-    # col1,col2, col3,col4 = st.columns(4)
-    st.header(f"{round(y_pred[0],2)} INR")
+
+if __name__ == "__main__":
+    app.run(debug=True)
