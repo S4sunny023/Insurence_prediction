@@ -26,4 +26,9 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 Werkzeug==1.0.1
+<<<<<<< HEAD
 -e .
+=======
+
+-e .
+>>>>>>> 4454448d4b38c25445bd17b714611b76a4f95c31
