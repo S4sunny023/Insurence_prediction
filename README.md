@@ -76,7 +76,7 @@ main--> is your branch name
 
 
 
-# AWS Deployment Link :
+# RENDER Deployment Link :
 
 App link : https://insurance-premium-8gyj.onrender.com/
 
